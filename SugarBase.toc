@@ -1,0 +1,12 @@
+## Interface: 70300
+## Title: SugarBase
+## Version: 0.0.0
+## DefaultState: enabled
+## LoadOnDemand: 1
+## SavedVariables: SugarBaseSaved
+## X-SavedVariable: SugarBaseSaved
+
+Data.lua
+MetaObjects/Spell.lua
+MetaObjects/Player.lua
+SugarBase.lua
