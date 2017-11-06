@@ -373,7 +373,11 @@ lib.GetMountMetaObject = (function ()
                 result.isUsable = freshRecord.isUsable
             end
 
-            self[index] = result
+            self[index] = setmetatable(result, {
+				__tostring = function (self)
+					return self.name
+				end,
+			})
 
             return result
         end } )
