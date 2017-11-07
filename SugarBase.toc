@@ -11,4 +11,5 @@ MetaObjects/Mount.lua
 MetaObjects/Player.lua
 MetaObjects/Spell.lua
 SugarBase.lua
+Update.lua
 Utils.lua
