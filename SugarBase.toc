@@ -7,9 +7,15 @@
 ## X-SavedVariable: SugarBaseSaved
 
 Data.lua
+MetaObjects/Class.lua
 MetaObjects/Mount.lua
 MetaObjects/Player.lua
+MetaObjects/PrimaryStat.lua
+MetaObjects/Race.lua
+MetaObjects/Role.lua
+MetaObjects/Specialization.lua
 MetaObjects/Spell.lua
+MetaObjects/Talent.lua
 SugarBase.lua
 Update.lua
 Utils.lua

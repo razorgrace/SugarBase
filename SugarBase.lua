@@ -17,11 +17,17 @@ local function EntryPoint()
 	end
 
 	local Utils = addonNamespace.Utils()
+	local Class = addonNamespace.Class()
 	local Data = addonNamespace.Data()
+	local Specialization = addonNamespace.Specialization()
 	local Spell = addonNamespace.Spell(Utils)
+	local Talent = addonNamespace.Talent()
 	local Player = addonNamespace.Player(Utils)
+	local PrimaryStat = addonNamespace.PrimaryStat()
+	local Race = addonNamespace.Race()
+	local Role = addonNamespace.Role()
 	local Mount = addonNamespace.Mount(Utils)
-	local Update = addonNamespace.Update(Spell)
+	local Update = addonNamespace.Update(Class, PrimaryStat, Race, Role, Specialization, Spell, Talent)
 	
 	local savedVariable = GetAddOnMetadata(addonName, 'X-SavedVariable')
 
