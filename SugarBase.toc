@@ -7,6 +7,6 @@
 ## X-SavedVariable: SugarBaseSaved
 
 Data.lua
-MetaObjects/Spell.lua
 MetaObjects/Player.lua
+MetaObjects/Spell.lua
 SugarBase.lua
