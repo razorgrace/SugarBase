@@ -1,6 +1,6 @@
 local addonName, addonNamespace = ...
 
-addonNamespace.Spell = function ()
+addonNamespace.Spell = function (Utils)
     return {
         CreateMetaObject = function (data)
             local result = {}
@@ -16,7 +16,7 @@ addonNamespace.Spell = function ()
                     for _, spell in pairs(data.spells) do
                         if not spell or not spell.name then
                             print('Bad spell in DB: #' .. spell.id)
-                        elseif addonNamespace.toCamelCase(spell.name) == index then
+                        elseif Utils.toCamelCase(spell.name) == index then
                             self[index] = setmetatable(
                                 {
                                     id = spell.id,

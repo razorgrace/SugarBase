@@ -2,10 +2,6 @@ local addonName, addonNamespace = ...
 
 _G[addonName] = addonNamespace
 
-addonNamespace.toCamelCase = function (str)
-    return str:gsub('[^%w%s]', ''):gsub('(%w)(%w*)', function (a, b) return a:upper() .. b end):gsub('%s+', '')
-end
-
 local function EntryPoint()
 	LoadAddOn('LibStub')
 	
@@ -20,9 +16,10 @@ local function EntryPoint()
 		return
 	end
 
+	local Utils = addonNamespace.Utils()
 	local Data = addonNamespace.Data()
-	local Spell = addonNamespace.Spell()
-	local Player = addonNamespace.Player()
+	local Spell = addonNamespace.Spell(Utils)
+	local Player = addonNamespace.Player(Utils)
 	
 	local savedVariable = GetAddOnMetadata(addonName, 'X-SavedVariable')
 
@@ -92,7 +89,7 @@ local function EntryPoint()
 		return function ()
 			return setmetatable({}, { __index = function (self, index)
 				local cachedRecord = findMount(function (record)
-					return addonNamespace.toCamelCase(record.creatureName) == index
+					return Utils.toCamelCase(record.creatureName) == index
 				end)
 				
 				if not cachedRecord then
