@@ -1,6 +1,6 @@
 local addonName, addonNamespace = ...
 
-addonNamespace.Player = function (Utils)
+addonNamespace.Player = function (Specialization, Utils)
     return {
         CreateMetaObject = function (data)
             local result = {}
@@ -28,15 +28,15 @@ addonNamespace.Player = function (Utils)
                         )
                         or Utils.dynamic(
                             index,
-                            data.specializations,
-                            function (specialization) return 'is' .. Utils.toCamelCase(specialization.name) end,
-                            function (specialization) return specialization.id == (select(1, GetSpecializationInfo(GetSpecialization()))) end
+                            Specialization.GetAll(),
+                            function (specialization) return 'is' .. Utils.toCamelCase(Specialization.GetEnglishNameById(specialization.specID)) end,
+                            function (specialization) return specialization.specID == (select(1, GetSpecializationInfo(GetSpecialization()))) end
                         )
                         or Utils.dynamic(
                             index,
-                            data.specializations,
-                            function (specialization) return 'is' .. Utils.toCamelCase(specialization.name) .. Utils.toCamelCase(data.classes[specialization.classId].name) end,
-                            function (specialization) return specialization.id == (select(1, GetSpecializationInfo(GetSpecialization()))) end
+                            Specialization.GetAll(),
+                            function (specialization) return 'is' .. Utils.toCamelCase(Specialization.GetEnglishNameById(specialization.specID)) .. Utils.toCamelCase(data.classes[specialization.classID].name) end,
+                            function (specialization) return specialization.specID == (select(1, GetSpecializationInfo(GetSpecialization()))) end
                         )
                         or Utils.dynamic(
                             index,
