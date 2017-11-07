@@ -24,10 +24,10 @@ local function EntryPoint()
 	
 	local savedVariable = GetAddOnMetadata(addonName, 'X-SavedVariable')
 
-	lib.UpdateData = function () _G[savedVariable] = updateDatabase(_G[savedVariable] or Data) end
-	lib.GetData = function () return Data end
-	lib.GetSpellMetaObject = function () return Spell.CreateMetaObject(Data) end
-	lib.GetPlayerMetaObject = function () return Player.CreateMetaObject(Data) end
+	lib.UpdateData = function () _G[savedVariable] = updateDatabase(_G[savedVariable] or Data.GetData()) end
+	lib.GetData = function () return Data.GetData() end
+	lib.GetSpellMetaObject = function () return Spell.CreateMetaObject(Data.GetData()) end
+	lib.GetPlayerMetaObject = function () return Player.CreateMetaObject(Data.GetData()) end
 	lib.GetMountMetaObject = function () return Mount.CreateMetaObject() end
 end
 
