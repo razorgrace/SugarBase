@@ -1,6 +1,6 @@
 local addonName, addonNamespace = ...
 
-addonNamespace.Update = function ()
+addonNamespace.Update = function (Spell)
     return {
         Update = function (current)
             local find = function (records, property, value)
@@ -140,7 +140,7 @@ addonNamespace.Update = function ()
                 return result
             end)()
         
-            local talents, spells = (function (current, spells)
+            local talents = (function (current)
                 local _, classTag, classId = UnitClass('player')
         
                 for specializationIndex = 1, GetNumSpecializationsForClassID(classId) do
@@ -159,107 +159,14 @@ addonNamespace.Update = function ()
                                 column = column,
                                 spellId = spellId,
                             }
-        
-                            local spellName, _, spellIcon, _, _, _, _ = GetSpellInfo(spellId)
-        
-                            spells[spellId] = {
-                                id = spellId,
-                                classId = classId,
-                                name = spellName,
-                                icon = spellIcon,
-                                classId = classId,
-                            }		
                         end
                     end
                 end
                             
-                return current, spells
-            end)(current.talents or {}, current.spells or {})
-        
-            spells = (function (current)
-                local _, _, classId = UnitClass('player')
-                
-                local function forEachSpellBookItem(callback)
-                    for tabIndex = 1, GetNumSpellTabs() do
-                        local name, texture, offset, numberOfSpells = GetSpellTabInfo(tabIndex)
-                        for spellIndex = 1, numberOfSpells do
-                            if not IsPassiveSpell(spellIndex + offset, BOOKTYPE_SPELL) then
-                                local itemType, itemId = GetSpellBookItemInfo(spellIndex + offset, BOOKTYPE_SPELL)
-            
-                                if itemType == 'FLYOUT' then
-                                    local _, _, numberOfSlots, _ = GetFlyoutInfo(itemId)
-                                    for slotIndex = 1, numberOfSlots do
-                                        local spellId, _ = GetFlyoutSlotInfo(itemId, slotIndex)
-                                        local name, _, icon, _, _, _, _ = GetSpellInfo(spellId)
-                                        callback(spellId, name, icon, skillType, classId)
-                                    end
-                                elseif itemType == 'SPELL' then
-                                    local name, _, icon, _, _, _, spellId = GetSpellInfo(itemId)
-                                    callback(spellId, name, icon, skillType, classId)
-                                end
-                            end
-                        end
-                    end
-                end
-        
-                forEachSpellBookItem(function (spellId, name, icon, skillType, classId)
-                    current[spellId] = {
-                        id = spellId,
-                        classId = classId,
-                        name = name,
-                        icon = icon,
-                        classId = classId,
-                    }
-                end)
-                
-                -- local seen = {}
-                -- local _, _, classId = UnitClass('player')
-                
-                -- for specializationIndex = 1, GetNumSpecializationsForClassID(classId) do
-                -- 	local specializationId, _, _, _, _, _ = GetSpecializationInfo(specializationIndex)
-                -- 	local spellIdsAndLevels = { GetSpecializationSpells(specializationIndex) }
-        
-                -- 	for i = 1, #spellIdsAndLevels, 2 do
-                -- 		if spellIdsAndLevels[i] == 2006 then
-                -- 			print(spellIdsAndLevels[i])
-                -- 		end
-                -- 		local level = spellIdsAndLevels[i + 1]
-                -- 		local name, _, icon, _, _, _, spellId = GetSpellInfo(spellIdsAndLevels[i])
-        
-                -- 		if name:find('Resu') then
-                -- 			-- print(name, icon, spellId)
-                -- 		end
-                        
-                -- 		-- some spells (e.g. Exhilaration) have several IDs; going to use one that is resolved by game via name
-                -- 		local altName, _, altIcon, _, _, _, altSpellId = GetSpellInfo(name)
-        
-                -- 		if altSpellId then
-                -- 			name = altName
-                -- 			icon = altIcon
-                -- 			spellId = altSpellId
-                -- 		end
-                        
-                -- 		if not seen[spellId] then
-                -- 			seen[spellId] = true
-        
-                -- 			current[spellId] = {
-                -- 				id = spellId,
-                -- 				classId = classId,
-                -- 				name = name,
-                -- 				icon = icon,
-                -- 				specializations = {},
-                -- 			}
-                -- 		end
-        
-                -- 		current[spellId].specializations[specializationId] = {
-                -- 			id = specializationId,
-                -- 			level = level,
-                -- 		}
-                -- 	end
-                -- end
-        
-                return current, spells
-            end)(spells)
+                return current
+            end)(current.talents or {})
+
+            Spell.UpdateData(current)
         
             current.races = races
             current.roles = roles

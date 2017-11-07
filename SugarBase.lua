@@ -21,7 +21,7 @@ local function EntryPoint()
 	local Spell = addonNamespace.Spell(Utils)
 	local Player = addonNamespace.Player(Utils)
 	local Mount = addonNamespace.Mount(Utils)
-	local Update = addonNamespace.Update()
+	local Update = addonNamespace.Update(Spell)
 	
 	local savedVariable = GetAddOnMetadata(addonName, 'X-SavedVariable')
 
